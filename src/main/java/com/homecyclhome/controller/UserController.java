@@ -1,6 +1,7 @@
 package com.homecyclhome.controller;
 
 import com.homecyclhome.dto.LoginRequest;
+import com.homecyclhome.dto.LoginResponse;
 import com.homecyclhome.model.Business;
 import com.homecyclhome.model.User;
 import com.homecyclhome.service.AuthService;
@@ -37,7 +38,8 @@ public class UserController {
         try {
             // Appeler le service AuthService pour l'authentification et récupérer le token
             String jwtToken = authService.login(loginRequest);
-            return ResponseEntity.ok(jwtToken);  // Retourner le token JWT
+            LoginResponse tokenResponse = new LoginResponse(jwtToken); // Créer un DTO avec le token
+            return ResponseEntity.ok(tokenResponse); // Retourner la réponse avec le token
         } catch (RuntimeException e) {
             return ResponseEntity.status(401).body(e.getMessage());  // Retourner l'erreur en cas d'échec
         }
